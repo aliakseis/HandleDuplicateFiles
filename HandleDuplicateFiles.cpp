@@ -418,6 +418,8 @@ int wmain(int argc, wchar_t* argv[])
 
     std::vector<std::vector<std::wstring>> allDuplicateGroups;
 
+    ULONGLONG gain = 0;
+
     // For each same-size group (excluding groups with only one file) group by content.
     for (const auto& entry : sizeGroups)
     {
@@ -434,6 +436,8 @@ int wmain(int argc, wchar_t* argv[])
             if (group.size() < 2)
                 continue;
 
+            gain += entry.first * (group.size() - 1);
+
             allDuplicateGroups.push_back(group);
 
             std::wcout << L"\nDuplicate Group #" << allDuplicateGroups.size() << L" size " << entry.first << L":\n";
@@ -444,6 +448,8 @@ int wmain(int argc, wchar_t* argv[])
 
     if (allDuplicateGroups.empty())
         std::wcout << L"\nNo duplicate files found." << std::endl;
+    else
+        std::wcout << L"\nGain: " << gain << L" bytes." << std::endl;
 
     //*
     for (const auto& group : allDuplicateGroups)
